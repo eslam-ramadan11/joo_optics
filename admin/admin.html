@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - Joo Optics</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="admin.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <h2>Joo Optics<span class="dot">.</span></h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="active" onclick="switchTab(event, 'dashboard')"><i class="fas fa-chart-pie"></i> لوحة القيادة</a>
+                <a href="#products" onclick="switchTab(event, 'products')"><i class="fas fa-glasses"></i> إدارة المنتجات</a>
+                <a href="#orders" onclick="switchTab(event, 'orders')"><i class="fas fa-shopping-cart"></i> الطلبات</a>
+                <a href="#customers" onclick="switchTab(event, 'customers')"><i class="fas fa-users"></i> العملاء</a>
+                <a href="#admin-management" onclick="switchTab(event, 'admin-management')"><i class="fas fa-user-shield"></i> إدارة المشرفين</a>
+                <a href="#coupons" onclick="switchTab(event, 'coupons')"><i class="fas fa-tags"></i> أكواد الخصم</a>
+                <a href="#deals" onclick="switchTab(event, 'deals')"><i class="fas fa-fire"></i> عروض اليوم</a>
+            </nav>
+            <div class="sidebar-bottom">
+                <a href="index.html"><i class="fas fa-store"></i> زيارة المتجر</a>
+                <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> تسجيل خروج</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <h2>مرحباً بك، أيها المدير 👋</h2>
+                <div class="admin-profile">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=F97316&color=fff" alt="Admin">
+                </div>
+            </header>
+
+            <div id="dashboard-tab" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>إجمالي المبيعات</h3>
+                            <p class="stat-value">24,500 EGP</p>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>الطلبات المكتملة</h3>
+                            <p class="stat-value">156</p>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-box"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>العملاء</h3>
+                            <p class="stat-value">89</p>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>إحصائيات مبيعات الأقسام</h3>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+
+            <div id="products-tab" class="tab-content">
+                <div class="form-container">
+                    <h3>إضافة منتج جديد</h3>
+                    <form id="addProductForm">
+                        <div class="input-group">
+                            <input type="text" id="prod-name" placeholder="اسم المنتج" required>
+                            <input type="number" id="prod-price" placeholder="السعر (EGP)" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="prod-old-price" placeholder="السعر القديم (اختياري)">
+                            <select id="prod-category" required>
+                                <option value="" disabled selected>اختر القسم</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="prod-stock" placeholder="المخزون" min="0" required>
+                        </div>
+                        <label class="lens-label" style="color:#94a3b8; font-size:13px; margin-top:5px;">الألوان المتاحة</label>
+                        <div id="prod-colors-checkboxes" class="color-checkbox-group"></div>
+                        <div class="input-group" style="margin-top:15px;">
+                            <input type="text" id="prod-discount" placeholder="شارة الخصم (مثال: خصم 20%)">
+                            <input type="file" id="prod-image" accept="image/*" required class="file-input">
+                        </div>
+                        <button type="submit" class="submit-btn"><i class="fas fa-plus"></i> إضافة المنتج</button>
+                    </form>
+                </div>
+
+                <div class="form-container" id="editProductContainer" style="display:none; margin-top:20px;">
+                    <h3>تعديل منتج</h3>
+                    <form id="editProductForm">
+                        <input type="hidden" id="edit-product-id">
+                        <div class="input-group">
+                            <input type="text" id="edit-prod-name" placeholder="اسم المنتج" required>
+                            <input type="number" id="edit-prod-price" placeholder="السعر (EGP)" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="edit-prod-old-price" placeholder="السعر القديم (اختياري)">
+                            <select id="edit-prod-category" required>
+                                <option value="" disabled selected>اختر القسم</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="edit-prod-stock" placeholder="المخزون" min="0" required>
+                        </div>
+                        <label class="lens-label" style="color:#94a3b8; font-size:13px; margin-top:5px;">الألوان المتاحة</label>
+                        <div id="edit-prod-colors-checkboxes" class="color-checkbox-group"></div>
+                        <div class="input-group" style="margin-top:15px;">
+                            <input type="text" id="edit-prod-discount" placeholder="شارة الخصم (اختياري)">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn"><i class="fas fa-save"></i> حفظ التعديلات</button>
+                            <button type="button" class="table-action-btn" id="cancelEditBtn">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-container" style="margin-top:20px;">
+                    <h3>المنتجات الحالية</h3>
+                    <form id="admin-product-search-form" class="filter-bar">
+                        <input type="search" id="admin-product-search" placeholder="ابحث باسم المنتج">
+                        <select id="admin-product-category">
+                            <option value="">All Categories</option>
+                        </select>
+                        <select id="admin-product-sort">
+                            <option value="id-desc">Newest</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="name-asc">Name: A to Z</option>
+                            <option value="name-desc">Name: Z to A</option>
+                        </select>
+                        <button type="submit" class="submit-btn">Filter</button>
+                        <button type="button" class="table-action-btn" id="admin-product-reset">Reset</button>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>المنتج</th>
+                                    <th>القسم</th>
+                                    <th>السعر</th>
+                                    <th>قديم</th>
+                                    <th>الألوان</th>
+                                    <th>المخزون</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-tbody">
+                                <tr><td colspan="8" style="text-align:center; color:#94a3b8;">Loading products...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="products-pagination"></div>
+                </div>
+            </div>
+
+            <div id="orders-tab" class="tab-content">
+                <div class="table-container">
+                    <h3>أحدث الطلبات</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>العميل</th>
+                                    <th>التوصيل والتليفون</th>
+                                    <th>الإجمالي</th>
+                                    <th>التاريخ</th>
+                                    <th>الحالة</th>
+                                    <th>الدفع</th>
+                                    <th>التفاصيل والمقاسات</th>
+                                    <th>الكشف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="customers-tab" class="tab-content">
+                <div class="table-container">
+                    <h3>بيانات العملاء المسجلين</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>الاسم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>الدور</th>
+                                    <th>تاريخ الميلاد (العمر)</th>
+                                    <th>تاريخ التسجيل</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customers-tbody">
+                                <tr><td colspan="6" style="text-align:center; color:#94a3b8;">Loading customers...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admin-management-tab" class="tab-content">
+                <!-- This tab is only reachable through this dashboard, which
+                     is itself gated by admin login - regular customers never
+                     see this link. The real protection is still server-side
+                     (admin_required + self-lockout guards on the API),
+                     never just "this link isn't shown anywhere". -->
+                <div class="form-container">
+                    <h3>إنشاء حساب مشرف جديد</h3>
+                    <form id="createAdminForm">
+                        <div class="input-group">
+                            <input type="text" id="new-admin-username" placeholder="اسم المستخدم" required>
+                            <input type="email" id="new-admin-email" placeholder="البريد الإلكتروني" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="new-admin-password" placeholder="كلمة المرور (١٢ حرفًا على الأقل)" minlength="12" required>
+                        </div>
+                        <button type="submit" class="submit-btn"><i class="fas fa-user-shield"></i> إنشاء حساب مشرف</button>
+                    </form>
+                </div>
+
+                <div class="table-container" style="margin-top:20px;">
+                    <h3>الصلاحيات الحالية</h3>
+                    <p style="color:#94a3b8; font-size:13px;">رقّي أي عميل مسجل ليصبح مشرفًا، أو ألغِ صلاحية مشرف حالي. لا يمكنك إلغاء صلاحيتك الخاصة، ولا صلاحية آخر مشرف متبقٍ في النظام.</p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>الاسم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>الدور</th>
+                                    <th>إجراء</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-management-tbody">
+                                <tr><td colspan="5" style="text-align:center; color:#94a3b8;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="coupons-tab" class="tab-content">
+                <div class="form-container">
+                    <h3>+ إنشاء كود خصم جديد</h3>
+                    <form id="createCouponForm">
+                        <div class="input-group">
+                            <input type="text" id="coupon-code" placeholder="كود الخصم (مثال: WELCOME10)" required style="text-transform:uppercase;">
+                            <select id="coupon-discount-type" required>
+                                <option value="percentage">نسبة مئوية (%)</option>
+                                <option value="fixed">مبلغ ثابت (EGP)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="coupon-discount-value" placeholder="قيمة الخصم" min="0.01" step="0.01" required>
+                            <input type="number" id="coupon-max-discount" placeholder="أقصى قيمة خصم (اختياري - للنسبة المئوية بس)" min="0" step="0.01">
+                        </div>
+
+                        <label class="lens-label" style="color:#94a3b8; font-size:13px;">صلاحية الكود</label>
+                        <div class="input-group">
+                            <input type="date" id="coupon-start-date" placeholder="تاريخ البداية (اختياري)">
+                            <input type="date" id="coupon-end-date" placeholder="تاريخ الانتهاء (اختياري)">
+                        </div>
+                        <label class="color-checkbox-item" style="margin-bottom:10px;">
+                            <input type="checkbox" id="coupon-is-active" checked> الكود فعال
+                        </label>
+
+                        <label class="lens-label" style="color:#94a3b8; font-size:13px;">حدود الاستخدام</label>
+                        <div class="input-group">
+                            <input type="number" id="coupon-max-total-uses" placeholder="أقصى عدد استخدامات (اتركه فاضي = غير محدود)" min="1">
+                            <input type="number" id="coupon-max-per-customer" placeholder="أقصى استخدام للعميل الواحد (اتركه فاضي = غير محدود)" min="1">
+                        </div>
+
+                        <label class="lens-label" style="color:#94a3b8; font-size:13px;">نطاق الخصم</label>
+                        <div class="input-group">
+                            <select id="coupon-apply-to">
+                                <option value="all">كل المنتجات</option>
+                                <option value="cart">السلة / الطلب بالكامل</option>
+                                <option value="specific_products">منتجات محددة</option>
+                                <option value="category">قسم منتجات معين</option>
+                                <option value="lenses_only">العدسات فقط</option>
+                                <option value="frames_only">الشنابر فقط</option>
+                            </select>
+                            <input type="number" id="coupon-min-order" placeholder="أقل قيمة طلب (اختياري)" min="0" step="0.01">
+                        </div>
+
+                        <select id="coupon-apply-products" multiple style="display:none; width:100%; padding:10px; margin-bottom:10px; background:#0F172A; color:#E2E8F0; border:1px solid #1e293b; border-radius:10px; min-height:100px;"></select>
+                        <select id="coupon-apply-category" style="display:none; width:100%; padding:10px; margin-bottom:10px;"></select>
+
+                        <button type="submit" class="submit-btn"><i class="fas fa-tag"></i> إنشاء الكود</button>
+                    </form>
+                </div>
+
+                <div class="form-container" id="editCouponContainer" style="display:none; margin-top:20px;">
+                    <h3>تعديل كود الخصم</h3>
+                    <form id="editCouponForm">
+                        <input type="hidden" id="edit-coupon-id">
+                        <div class="input-group">
+                            <input type="text" id="edit-coupon-code" placeholder="كود الخصم" required style="text-transform:uppercase;">
+                            <select id="edit-coupon-discount-type" required>
+                                <option value="percentage">نسبة مئوية (%)</option>
+                                <option value="fixed">مبلغ ثابت (EGP)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="edit-coupon-discount-value" placeholder="قيمة الخصم" min="0.01" step="0.01" required>
+                            <input type="number" id="edit-coupon-max-discount" placeholder="أقصى قيمة خصم (اختياري)" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <input type="date" id="edit-coupon-start-date">
+                            <input type="date" id="edit-coupon-end-date">
+                        </div>
+                        <label class="color-checkbox-item" style="margin-bottom:10px;">
+                            <input type="checkbox" id="edit-coupon-is-active"> الكود فعال
+                        </label>
+                        <div class="input-group">
+                            <input type="number" id="edit-coupon-max-total-uses" placeholder="أقصى عدد استخدامات" min="1">
+                            <input type="number" id="edit-coupon-max-per-customer" placeholder="أقصى استخدام للعميل" min="1">
+                        </div>
+                        <div class="input-group">
+                            <select id="edit-coupon-apply-to">
+                                <option value="all">كل المنتجات</option>
+                                <option value="cart">السلة / الطلب بالكامل</option>
+                                <option value="specific_products">منتجات محددة</option>
+                                <option value="category">قسم منتجات معين</option>
+                                <option value="lenses_only">العدسات فقط</option>
+                                <option value="frames_only">الشنابر فقط</option>
+                            </select>
+                            <input type="number" id="edit-coupon-min-order" placeholder="أقل قيمة طلب" min="0" step="0.01">
+                        </div>
+                        <select id="edit-coupon-apply-products" multiple style="display:none; width:100%; padding:10px; margin-bottom:10px; background:#0F172A; color:#E2E8F0; border:1px solid #1e293b; border-radius:10px; min-height:100px;"></select>
+                        <select id="edit-coupon-apply-category" style="display:none; width:100%; padding:10px; margin-bottom:10px;"></select>
+                        <button type="submit" class="submit-btn">حفظ التعديلات</button>
+                        <button type="button" class="table-action-btn" onclick="document.getElementById('editCouponContainer').style.display='none';">إلغاء</button>
+                    </form>
+                </div>
+
+                <div class="table-container" style="margin-top:20px;">
+                    <h3>أكواد الخصم الحالية</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>الكود</th>
+                                    <th>النوع</th>
+                                    <th>القيمة</th>
+                                    <th>الحالة</th>
+                                    <th>الاستخدام</th>
+                                    <th>النطاق</th>
+                                    <th>إجراء</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coupons-tbody">
+                                <tr><td colspan="7" style="text-align:center; color:#94a3b8;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="deals-tab" class="tab-content">
+                <div class="form-container">
+                    <h3>+ إضافة منتج لعروض اليوم</h3>
+                    <p class="product-meta" style="margin-bottom:10px;">اختار منتج من القائمة تحت واضغط إضافة - هيظهر في قسم "عروض اليوم" بالصفحة الرئيسية فورًا.</p>
+                    <div class="input-group">
+                        <select id="deal-product-select" style="flex:1;"></select>
+                        <button type="button" id="addDealBtn" class="submit-btn" style="width:auto; white-space:nowrap;">إضافة</button>
+                    </div>
+                </div>
+
+                <div class="form-container" style="margin-top:20px;">
+                    <h3>⏰ عداد وقت العروض</h3>
+                    <p class="product-meta" id="deals-countdown-status" style="margin-bottom:10px;">جاري التحميل...</p>
+
+                    <p class="lens-label" style="color:#94a3b8; font-size:13px;">مدة سريعة من دلوقتي</p>
+                    <div class="input-group" style="flex-wrap:wrap;">
+                        <button type="button" class="table-action-btn deals-countdown-preset" data-minutes="60">ساعة</button>
+                        <button type="button" class="table-action-btn deals-countdown-preset" data-minutes="180">3 ساعات</button>
+                        <button type="button" class="table-action-btn deals-countdown-preset" data-minutes="360">6 ساعات</button>
+                        <button type="button" class="table-action-btn deals-countdown-preset" data-minutes="720">12 ساعة</button>
+                        <button type="button" class="table-action-btn deals-countdown-preset" data-minutes="1440">24 ساعة</button>
+                        <button type="button" class="table-action-btn deals-countdown-preset" data-minutes="2880">48 ساعة</button>
+                    </div>
+
+                    <p class="lens-label" style="color:#94a3b8; font-size:13px; margin-top:15px;">أو حدد تاريخ ووقت الانتهاء بنفسك</p>
+                    <div class="input-group">
+                        <input type="datetime-local" id="deals-countdown-custom" style="flex:1;">
+                        <button type="button" id="deals-countdown-set-btn" class="submit-btn" style="width:auto; white-space:nowrap;">بدء العداد</button>
+                    </div>
+
+                    <button type="button" id="deals-countdown-cancel-btn" class="table-action-btn" style="display:none; margin-top:10px; color:#ef4444;">إلغاء العداد الحالي</button>
+                </div>
+
+                <div class="table-container" style="margin-top:20px;">
+                    <h3>عروض اليوم الحالية</h3>
+                    <p class="product-meta">الترتيب هنا هو نفس ترتيب ظهورهم في الصفحة الرئيسية.</p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>الترتيب</th>
+                                    <th>الصورة</th>
+                                    <th>المنتج</th>
+                                    <th>السعر</th>
+                                    <th>إجراء</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deals-tbody">
+                                <tr><td colspan="5" style="text-align:center; color:#94a3b8;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="admin_app.js"></script>
+</body>
+</html>

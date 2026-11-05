@@ -1,0 +1,81 @@
+# Joo Optics API - Environment Configuration
+# Copy this file to .env and update with your actual values
+# IMPORTANT: Never commit .env file with real secrets to version control
+#
+# ENFORCED AT STARTUP: unless FLASK_ENV is explicitly development/testing,
+# the app now refuses to boot (see app/__init__.py) if SECRET_KEY/
+# JWT_SECRET_KEY are still placeholders, DATABASE_URL is SQLite, CORS_ORIGINS
+# is a wildcard or the localhost default, SITE_BASE_URL isn't https://,
+# RATELIMIT_STORAGE_URL is still memory://, or any PAYMOB_* secret is unset.
+# These aren't just suggestions below - a real deployment must set them all.
+
+# Flask Configuration
+FLASK_ENV=development
+DEBUG=False
+
+# Security Keys (Generate secure random strings: python -c "import secrets; print(secrets.token_hex(32))")
+SECRET_KEY=change-me-to-secure-random-string-min-32-chars
+JWT_SECRET_KEY=change-me-to-different-secure-random-string-min-32-chars
+
+# Database Configuration
+DATABASE_URL=sqlite:///site.db
+# For PostgreSQL: DATABASE_URL=postgresql://user:password@localhost:5432/joo_optics
+SQLALCHEMY_TRACK_MODIFICATIONS=False
+
+# JWT Configuration
+JWT_ACCESS_TOKEN_EXPIRES=900
+JWT_REFRESH_TOKEN_EXPIRES=2592000
+JWT_ALGORITHM=HS256
+
+# File Upload Configuration
+PRESCRIPTIONS_UPLOAD_FOLDER=uploads/prescriptions
+MAX_CONTENT_LENGTH=5242880
+ALLOWED_PRESCRIPTION_EXTENSIONS=png,jpg,jpeg,pdf
+
+# CORS Configuration
+CORS_ORIGINS=http://localhost:3000,http://localhost:8080,https://yourdomain.com
+
+# Only set this to true once the app is actually running behind a real
+# reverse proxy (nginx, a load balancer, Cloudflare, etc). It makes the
+# app trust X-Forwarded-For/-Proto/-Host headers to determine the real
+# client IP and scheme - correct and necessary behind a real proxy, but
+# if there isn't one, anyone could fake their own IP by sending that
+# header directly, which would make rate limiting *less* trustworthy.
+# Leave unset (or false) for local development and for any deployment
+# with no reverse proxy in front of it.
+TRUST_PROXY_HEADERS=false
+
+# Rate Limiting
+# For production with Redis: RATELIMIT_STORAGE_URL=redis://localhost:6379
+RATELIMIT_STORAGE_URL=memory://
+
+# Logging
+LOG_LEVEL=INFO
+LOG_FILE=logs/app.log
+
+# Production Settings
+PROPAGATE_EXCEPTIONS=True
+JSON_SORT_KEYS=False
+
+# Email Configuration (if needed for future features)
+# MAIL_SERVER=smtp.gmail.com
+# MAIL_PORT=587
+# MAIL_USE_TLS=True
+# MAIL_USERNAME=your-email@gmail.com
+# MAIL_PASSWORD=your-app-password
+
+# AWS S3 Configuration (if using S3 for file uploads)
+# AWS_ACCESS_KEY_ID=your-access-key
+# AWS_SECRET_ACCESS_KEY=your-secret-key
+# AWS_S3_BUCKET=your-bucket-name
+# AWS_S3_REGION=us-east-1
+
+# Paymob (Accept API) - see PAYMOB_SETUP.md
+PAYMOB_BASE_URL=https://accept.paymob.com
+PAYMOB_API_KEY=your-paymob-api-key
+PAYMOB_INTEGRATION_ID=your-card-integration-id
+PAYMOB_IFRAME_ID=your-iframe-id
+PAYMOB_HMAC_SECRET=your-hmac-secret
+
+# Used for sitemap.xml and Open Graph tags - set to your real domain once deployed
+SITE_BASE_URL=https://your-domain.com

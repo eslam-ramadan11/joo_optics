@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حسابي - Joo Optics</title>
+<meta name="description" content="إدارة حسابك في Joo Optics - بياناتك الشخصية، عناوين الشحن، وسجل مشترياتك.">
+<meta name="robots" content="noindex, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="حسابي - Joo Optics">
+<meta property="og:description" content="إدارة حسابك في Joo Optics - بياناتك الشخصية، عناوين الشحن، وسجل مشترياتك.">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="/images/logo.jpg">
+<meta name="geo.region" content="EG">
+<meta name="geo.placename" content="Egypt">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+        <div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html">الرئيسية</a>
+        <a href="shop.html">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html">من نحن</a>
+        <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+    <!-- If you're seeing a blank page here instead of your account, open
+         this page through the running server (http://127.0.0.1:5000/account.html),
+         not by double-clicking the file directly - relative /api/... calls
+         only work when the page is served, not opened as a local file. -->
+
+    <h1 class="sr-only">حسابي في Joo Optics</h1>
+
+    <div id="account-fatal-error" class="section" dir="rtl" style="display:none; max-width:600px; margin:0 auto; text-align:center;">
+        <div class="card">
+            <h2 style="color:#ef4444;">حصلت مشكلة أثناء تحميل حسابك</h2>
+            <p id="account-fatal-error-message" class="product-meta"></p>
+            <p class="product-meta">لو المشكلة فضلت، كلمنا وابعتلنا لقطة شاشة لهذه الرسالة.</p>
+        </div>
+    </div>
+
+    <div id="account-guest-notice" class="section" dir="rtl" style="display:none; max-width:600px; margin:0 auto; text-align:center;">
+        <div class="card">
+            <h2>لازم تسجل دخول عشان تشوف حسابك</h2>
+            <a class="button" href="login.html">تسجيل الدخول</a>
+        </div>
+    </div>
+
+    <section class="section account-shell" id="account-page" dir="rtl" style="display:none;">
+        <aside class="account-sidebar">
+            <div class="account-sidebar-user">
+                <div class="account-avatar" id="account-avatar">?</div>
+                <div>
+                    <strong id="account-sidebar-username">-</strong>
+                    <div class="product-meta" id="account-sidebar-since"></div>
+                </div>
+            </div>
+            <nav class="account-nav">
+                <button type="button" class="account-nav-btn active" data-tab="overview">📊 نظرة عامة</button>
+                <button type="button" class="account-nav-btn" data-tab="profile">👤 بياناتي</button>
+                <button type="button" class="account-nav-btn" data-tab="addresses">📍 العناوين</button>
+                <button type="button" class="account-nav-btn" data-tab="security">🔒 الأمان</button>
+                <button type="button" class="account-nav-btn" data-tab="orders">📦 طلباتي</button>
+            </nav>
+        </aside>
+
+        <div class="account-main">
+            <!-- Overview -->
+            <div id="tab-overview" class="account-tab-content card active">
+                <h3>أهلاً بيك، <span id="overview-username">-</span></h3>
+                <div class="account-stats">
+                    <div class="account-stat-card">
+                        <div class="account-stat-value" id="stat-total-orders">-</div>
+                        <div class="product-meta">إجمالي الطلبات</div>
+                    </div>
+                    <div class="account-stat-card">
+                        <div class="account-stat-value" id="stat-addresses">-</div>
+                        <div class="product-meta">العناوين المحفوظة</div>
+                    </div>
+                    <div class="account-stat-card">
+                        <div class="account-stat-value" id="stat-last-order">-</div>
+                        <div class="product-meta">آخر طلب</div>
+                    </div>
+                </div>
+                <h3 style="margin-top:30px;">آخر طلباتك</h3>
+                <div id="overview-recent-orders"></div>
+            </div>
+
+            <!-- Profile -->
+            <div id="tab-profile" class="account-tab-content card" style="display:none;">
+                <h3>البيانات الشخصية</h3>
+                <form id="profileForm">
+                    <label class="lens-label" for="profileUsername">اسم المستخدم</label>
+                    <input class="lens-input account-full-input" type="text" id="profileUsername" required>
+
+                    <label class="lens-label" for="profileEmail">البريد الإلكتروني</label>
+                    <input class="lens-input account-full-input" type="email" id="profileEmail" required>
+
+                    <label class="lens-label" for="profileDob">تاريخ الميلاد</label>
+                    <input class="lens-input account-full-input" type="date" id="profileDob">
+
+                    <button type="submit" class="button">حفظ التغييرات</button>
+                </form>
+                <p class="account-msg" id="profileMsg"></p>
+            </div>
+
+            <!-- Addresses -->
+            <div id="tab-addresses" class="account-tab-content card" style="display:none;">
+                <h3>عناوين الشحن</h3>
+                <div id="addressList" class="address-list"></div>
+
+                <details>
+                    <summary style="cursor:pointer; color:#F97316;">+ إضافة عنوان جديد</summary>
+                    <form id="addressForm" class="account-address-form">
+                        <label class="lens-label" for="addressCity">المدينة</label>
+                        <input class="lens-input account-full-input" type="text" id="addressCity" required>
+
+                        <label class="lens-label" for="addressFull">العنوان بالتفصيل</label>
+                        <input class="lens-input account-full-input" type="text" id="addressFull" required>
+
+                        <label class="lens-label" for="addressPhone">رقم التليفون</label>
+                        <input class="lens-input account-full-input" type="text" id="addressPhone" required>
+
+                        <label class="lens-label" style="display:flex; align-items:center; gap:8px;">
+                            <input type="checkbox" id="addressIsDefault"> اجعله العنوان الافتراضي
+                        </label>
+
+                        <button type="submit" class="button">إضافة العنوان</button>
+                    </form>
+                </details>
+                <p class="account-msg" id="addressMsg"></p>
+            </div>
+
+            <!-- Security -->
+            <div id="tab-security" class="account-tab-content card" style="display:none;">
+                <h3>تغيير كلمة السر</h3>
+                <form id="passwordForm">
+                    <label class="lens-label" for="oldPassword">كلمة السر الحالية</label>
+                    <input class="lens-input account-full-input" type="password" id="oldPassword" required>
+
+                    <label class="lens-label" for="newPassword">كلمة السر الجديدة</label>
+                    <input class="lens-input account-full-input" type="password" id="newPassword" minlength="6" required>
+
+                    <label class="lens-label" for="confirmPassword">تأكيد كلمة السر الجديدة</label>
+                    <input class="lens-input account-full-input" type="password" id="confirmPassword" minlength="6" required>
+
+                    <button type="submit" class="button">تحديث كلمة السر</button>
+                </form>
+                <p class="account-msg" id="passwordMsg"></p>
+            </div>
+
+            <!-- Orders -->
+            <div id="tab-orders" class="account-tab-content card" style="display:none;">
+                <h3>سجل المشتريات</h3>
+                <div id="ordersList"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="tracking.js"></script>
+    <script src="toast.js"></script>
+    <script src="frontend.js"></script>
+    <script src="account.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>

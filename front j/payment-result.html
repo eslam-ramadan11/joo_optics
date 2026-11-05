@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نتيجة الدفع - Joo Optics</title>
+<meta name="description" content="نتيجة عملية الدفع - Joo Optics.">
+<meta name="robots" content="noindex, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="نتيجة الدفع - Joo Optics">
+<meta property="og:description" content="نتيجة عملية الدفع - Joo Optics.">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="/images/logo.jpg">
+<meta name="geo.region" content="EG">
+<meta name="geo.placename" content="Egypt">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+        <div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html">الرئيسية</a>
+        <a href="shop.html">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html">من نحن</a>
+        <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+    <section class="section" dir="rtl" style="max-width:600px; margin:0 auto; text-align:center;">
+        <div class="card" id="payment-result-card">
+            <h1 class="page-title" id="payment-result-title">جاري التأكد من الدفع...</h1>
+            <p id="payment-result-message" class="product-meta">من فضلك استنى لحظات.</p>
+            <a class="button" href="account.html" style="margin-top:15px; display:inline-block;">طلباتي</a>
+        </div>
+    </section>
+
+    <script src="tracking.js"></script>
+    <script src="frontend.js"></script>
+    <script src="payment-result.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Joo Optics Database ERD</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            background-color: #0F172A;
+            color: #E2E8F0;
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #F97316;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .mermaid {
+            background: #111827;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #F97316;
+            width: 100%;
+            max-width: 1300px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                background: '#111827',
+                primaryColor: '#1e293b',
+                primaryTextColor: '#E2E8F0',
+                lineColor: '#F97316',
+                secondaryColor: '#0F172A',
+                tertiaryColor: '#111827'
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <h1>Joo Optics Database ERD</h1>
+
+    <div class="mermaid">
+        erDiagram
+            USER ||--o{ SHIPPING_ADDRESS : has
+            USER ||--o{ PRESCRIPTION : owns
+            USER ||--o{ ORDER : places
+            
+            ORDER ||--|{ ORDER_ITEM : contains
+            ORDER ||--o| PAYMENT : processed_via
+            ORDER }o--|| SHIPPING_ADDRESS : delivered_to
+            ORDER }o--o| COUPON : discounted_by
+            
+            PRODUCT ||--o{ ORDER_ITEM : included_in
+            PRODUCT ||--o{ PRODUCT_IMAGE : has
+            PRODUCT ||--o| DAILY_DEAL : featured_as
+            PRESCRIPTION ||--o{ ORDER_ITEM : uses_measurements
+
+            USER {
+                int id PK
+                string username
+                string email
+                string password_hash
+                boolean is_admin
+                datetime created_at
+            }
+
+            SHIPPING_ADDRESS {
+                int id PK
+                int user_id FK
+                string city
+                string full_address
+                string phone_number
+                boolean is_default
+            }
+
+            PRESCRIPTION {
+                int id PK
+                int user_id FK
+                string image_file
+                float sph_r
+                float cyl_r
+                int axis_r
+                float sph_l
+                float cyl_l
+                int axis_l
+                datetime uploaded_at
+            }
+
+  PRODUCT {
+    int id PK
+    string name
+    float price
+    float old_price
+    string category
+    string image_file
+    string discount_badge
+    string colors         
+    int stock_quantity
+}
+
+            PRODUCT_IMAGE {
+                int id PK
+                int product_id FK
+                string color
+                string image_file
+                int sort_order
+            }
+
+            DAILY_DEAL {
+                int id PK
+                int product_id FK "unique"
+                int sort_order
+                datetime added_at
+            }
+
+            COUPON {
+                int id PK
+                string code "unique"
+                string discount_type
+                float discount_value
+                datetime start_date
+                datetime end_date
+                boolean is_active
+                int max_total_uses
+                int max_uses_per_customer
+                string apply_to
+                string apply_to_value
+                float min_order_amount
+                float max_discount_amount
+                datetime created_at
+            }
+
+
+            ORDER {
+                int id PK
+                int user_id FK
+                int address_id FK
+                int coupon_id FK
+                string status
+                float total_amount
+                float discount_amount
+                datetime date_posted
+            }
+
+            ORDER_ITEM {
+                int id PK
+                int order_id FK
+                int product_id FK
+                int prescription_id FK
+                string lens_type
+                int quantity
+                float item_price
+            }
+
+            PAYMENT {
+                int id PK
+                int order_id FK
+                float amount
+                string payment_method
+                string payment_status
+                string transaction_id
+                datetime payment_date
+            }
+    </div>
+
+</body>
+</html>

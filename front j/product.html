@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joo Optics - Product</title>
+<meta name="description" content="تفاصيل المنتج - Joo Optics، نظارات طبية وشمسية في مصر.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="Joo Optics - Product">
+<meta property="og:description" content="تفاصيل المنتج - Joo Optics، نظارات طبية وشمسية في مصر.">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="/images/logo.jpg">
+<meta name="geo.region" content="EG">
+<meta name="geo.placename" content="Egypt">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+        <div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html">الرئيسية</a>
+        <a href="shop.html" class="active">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html">من نحن</a>
+        <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+    <section class="section product-page" id="product-page">
+        <nav class="breadcrumbs" id="breadcrumbs" style="display: none;"></nav>
+
+        <div id="product-loading" class="site-loading"><span class="site-spinner"></span> جاري تحميل المنتج...</div>
+
+        <div id="product-not-found" style="display: none; text-align: center;">
+            <h2>المنتج غير موجود</h2>
+            <a class="button" href="shop.html">الرجوع للمتجر</a>
+        </div>
+
+        <div id="product-content" class="product-detail-grid" style="display: none;">
+            <div class="product-gallery">
+                <div class="product-gallery-main">
+                    <span id="productDiscountBadge" class="discount-badge" style="display: none;"></span>
+                    <img id="mainImage" src="" alt="">
+                </div>
+                <div class="product-gallery-thumbs" id="thumbGallery"></div>
+            </div>
+
+            <div class="product-info-panel">
+                <p class="product-meta" id="productCategory"></p>
+                <h1 id="productName"></h1>
+                <div class="product-price-row">
+                    <span class="price" id="productPrice"></span>
+                    <span class="old-price" id="productOldPrice" style="display: none;"></span>
+                </div>
+
+                <div id="colorSwatchGroup" style="display: none;">
+                    <label class="lens-label">اللون</label>
+                    <div class="color-swatch-row" id="colorSwatches"></div>
+                </div>
+
+                <p class="product-meta" id="productStock"></p>
+
+                <div class="product-qty-row">
+                    <label class="lens-label" style="margin-bottom:0;">الكمية</label>
+                    <div class="cart-row-qty">
+                        <button type="button" class="qty-btn" id="qtyMinus">-</button>
+                        <span id="qtyValue">1</span>
+                        <button type="button" class="qty-btn" id="qtyPlus">+</button>
+                    </div>
+                </div>
+
+                <button type="button" class="button" id="addToCartBtn" style="width: 100%;">أضف إلى السلة</button>
+
+                <div class="product-description">
+                    <h3>تفاصيل المنتج</h3>
+                    <p>نظارة بتصميم عصري. تقدر تركّب عليها عدسات طبية حسب كشفك وقت إتمام الطلب، أو تطلبها كإطار فقط.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="related-products-section" style="display: none;">
+            <h2 style="margin-top: 50px;">قد يعجبك أيضًا</h2>
+            <div class="products" id="related-products"></div>
+        </div>
+    </section>
+
+    <script src="tracking.js"></script>
+    <script src="toast.js"></script>
+    <script src="frontend.js"></script>
+    <script src="product.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>

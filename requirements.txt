@@ -1,0 +1,44 @@
+# Joo Optics API - Python Dependencies
+# Production-ready backend with authentication, database, API validation, and testing
+
+# Core Framework
+Flask>=2.2.0
+Flask-JWT-Extended>=4.4.4
+Flask-Migrate>=4.0.4
+Flask-Cors>=3.0.10
+Flask-SQLAlchemy>=3.0.2
+Flask-Bcrypt>=1.0.1
+Flask-Limiter>=3.3.0
+requests>=2.31.0
+
+# Database & ORM
+alembic>=1.10.0
+python-dotenv>=1.0.0
+
+# Security
+bcrypt>=4.0.1
+Werkzeug>=2.2.0
+
+# Data Validation & Serialization
+marshmallow>=3.19.0
+flask-marshmallow>=0.15.0
+# FIX: schemas use fields.Email() (user_profile_schema.py) - marshmallow
+# needs this extra installed or Email validation raises an ImportError
+# the first time it actually runs, not at import time, so it's easy to miss
+# in local testing until a real request hits it.
+email-validator>=2.0.0
+
+# API Documentation
+flask-swagger-ui>=3.36.0
+
+# Production Server
+gunicorn>=20.1.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Development & Debugging (optional)
+# Uncomment these for development
+# flask-debugtoolbar>=0.13.1
+# python-dotenv[cli]>=1.0.0

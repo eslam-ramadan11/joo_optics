@@ -1,0 +1,39 @@
+# Databases - NEVER commit real data (password hashes, prescriptions, orders...)
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Env / secrets
+.env
+.flaskenv
+.env.*
+!.env.example
+
+# TLS private keys and local certificates
+ssl/
+
+# Uploaded user content (customer prescriptions are medical data - never commit)
+uploads/
+**/static/uploads/
+prescriptions_uploads/
+
+# Python
+__pycache__/
+*pycache*/
+*.pyc
+*.py[cod]
+.venv/
+venv/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+test-results/
+
+# Local logs
+*.log
+logs/

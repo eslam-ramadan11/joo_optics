@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joo Optics - نظارات طبية وشمس أونلاين في مصر</title>
+<meta name="description" content="متجر Joo Optics لبيع النظارات الطبية والشمسية أونلاين في مصر. تشكيلة واسعة من الشنابر الطبية والشمس الرجالي والحريمي والأطفال، مع خدمة رفع الكشف وتفصيل العدسات حسب مقاسك.">
+<meta name="keywords" content="نظارات طبية مصر, نظارات شمس مصر, شنابر طبي, عدسات طبية اونلاين, متجر نظارات مصر">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="Joo Optics - نظارات طبية وشمس أونلاين في مصر">
+<meta property="og:description" content="متجر Joo Optics لبيع النظارات الطبية والشمسية أونلاين في مصر. تشكيلة واسعة من الشنابر الطبية والشمس الرجالي والحريمي والأطفال، مع خدمة رفع الكشف وتفصيل العدسات حسب مقاسك.">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="/images/logo.jpg">
+<meta name="geo.region" content="EG">
+<meta name="geo.placename" content="Egypt">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+        <div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html" class="active">الرئيسية</a>
+        <a href="shop.html">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html">من نحن</a>
+        <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+<section class="hero-slider reveal" id="heroSlider">
+    <div class="hero-slide active" data-slide="0">
+        <div class="hero-slide-bg" style="background-image:url('images/hero-calculator.jpg.png');"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+            <span class="hero-badge"><i class="fa-solid fa-star"></i> ميزة حصرية في جو أوبتيكس</span>
+            <h1>حاسبة العدسات<br><span class="highlight">بأسعار متفاوته و مناسبه لكل الفئات</span></h1>
+            <p>أدخل مقاساتك واعرف سعر العدسات المناسبة لك بسهولة.</p>
+            <a href="#lens-calculator-section" class="hero-cta">جرب الحاسبة الآن <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+
+    <div class="hero-slide" data-slide="1">
+        <div class="hero-slide-bg" style="background-image:url('images/hero-pricing.jpg.jpg');"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+            <span class="hero-badge"><i class="fa-solid fa-tag"></i> شفافية كاملة</span>
+            <h2>أسعار <span class="highlight">واضحة</span> للعدسات</h2>
+            <p>اعرف سعر العدسة المناسبة لمقاسك قبل ما تشتري - من غير مفاجآت.</p>
+            <a href="#lens-calculator-section" class="hero-cta">اعرف السعر <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+
+    <div class="hero-slide" data-slide="2">
+        <div class="hero-slide-bg" style="background-image:url('images/hero-assistant.jpg.jpg');"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+            <span class="hero-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> مساعد ذكي</span>
+            <h2>اختيار العدسات <span class="highlight">أصبح أسهل</span></h2>
+            <p>مش عارف تختار العدسة المناسبة؟ جاوب على سؤالين ونرشح لك الأنسب.</p>
+            <a href="#lens-calculator-section" class="hero-cta">جرب المساعد <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+
+    <div class="hero-slide" data-slide="3">
+        <div class="hero-slide-bg" style="background-image:url('images/hero-collection.jpg.png');"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+            <span class="hero-badge"><i class="fa-solid fa-sparkles"></i> تشكيلة تتجدد باستمرار</span>
+            <h2>موديلات <span class="highlight">جديدة</span> باستمرار</h2>
+            <p>تشكيلة نظارات طبية وشمسية بتتجدد على طول عشان تلاقي اللي يناسبك.</p>
+            <a href="shop.html" class="hero-cta">تصفح التشكيلة <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+
+    <div class="hero-slide" data-slide="4">
+        <div class="hero-slide-bg" style="background-image:url('images/hero-checkout.jpg.jpg');"></div>
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+            <span class="hero-badge"><i class="fa-solid fa-bolt"></i> بساطة في كل خطوة</span>
+            <h2>شراء <span class="highlight">أسهل وأسرع</span></h2>
+            <p>اختار الإطار، حدد العدسات، ادفع بأمان، واستلم لحد باب البيت.</p>
+            <a href="shop.html" class="hero-cta">ابدأ التسوق <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+
+    <button type="button" class="hero-nav-arrow prev" onclick="heroSliderGo(-1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+    <button type="button" class="hero-nav-arrow next" onclick="heroSliderGo(1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="hero-dots" id="heroDots"></div>
+</section>
+
+<section class="feature-carousel-section reveal">
+    <div class="feature-carousel">
+        <div class="feature-card">
+            <div class="feature-index">01 / 05</div>
+            <div class="feature-icon"><i class="fa-solid fa-calculator"></i></div>
+            <h3>حاسبة العدسات</h3>
+            <p>اعرف سعر عدساتك قبل الشراء</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-index">02 / 05</div>
+            <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <h3>مساعد اختيار العدسات</h3>
+            <p>نرشح لك العدسة حسب استخدامك</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-index">03 / 05</div>
+            <div class="feature-icon"><i class="fa-solid fa-sparkles"></i></div>
+            <h3>تشكيلة متجددة</h3>
+            <p>اكتشف الموديلات الجديدة باستمرار</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-index">04 / 05</div>
+            <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>دفع آمن</h3>
+            <p>الدفع عند الاستلام أو أونلاين بالفيزا والمحفظة الإلكترونية</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-index">05 / 05</div>
+            <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+            <h3>خدمة عملاء</h3>
+            <p>نساعدك قبل وبعد الشراء</p>
+        </div>
+    </div>
+</section>
+
+<section class="section reveal" id="daily-deals-section" style="display:none;">
+    <h2>🔥 عروض اليوم</h2>
+    <p id="daily-deals-countdown" style="display:none; text-align:center; font-size:20px; font-weight:700; color:#F97316; margin-top:-10px; margin-bottom:20px;"></p>
+    <div class="products" id="daily-deals-products"></div>
+</section>
+
+<section class="section" id="lens-calculator-section">
+    <div class="card reveal lens-card calc-shell" dir="ltr">
+        <div class="calc-head" dir="rtl">
+            <h2>حاسبة أسعار وتخصيص العدسات</h2>
+            <p>اكتب مقاسات الكشف زي ما هي مكتوبة في الورقة وهنعرض لك العدسات المتاحة وأسعارها.</p>
+        </div>
+
+        <form id="lensCalculatorForm">
+            <div class="rx-slip" role="group" aria-label="مقاسات الكشف">
+                <span class="rx-watermark" aria-hidden="true">&#8478;</span>
+                <div class="rx-slip-top">
+                    <span class="rx-slip-title">Prescription</span>
+                    <span class="rx-slip-sub">مقاسات الكشف</span>
+                </div>
+
+                <div class="rx-row rx-head" aria-hidden="true">
+                    <span class="rx-corner"></span>
+                    <span class="rx-col"><b>SPH</b><small>Sphere</small></span>
+                    <span class="rx-col"><b>CYL</b><small>Cylinder</small></span>
+                    <span class="rx-col"><b>AXIS</b><small>Axis</small></span>
+                </div>
+
+                <div class="rx-row rx-eye-row rx-right">
+                    <div class="rx-eye"><b class="rx-badge">R</b><span class="rx-eye-name">العين اليمين</span></div>
+                    <input type="number" step="0.25" id="sph-r" placeholder="0.00" class="lens-input" aria-label="SPH - العين اليمين">
+                    <input type="number" step="0.25" id="cyl-r" placeholder="0.00" class="lens-input" aria-label="CYL - العين اليمين">
+                    <input type="number" step="1" id="axis-r" placeholder="0" class="lens-input" aria-label="AXIS - العين اليمين">
+                </div>
+
+                <div class="rx-row rx-eye-row rx-left">
+                    <div class="rx-eye"><b class="rx-badge">L</b><span class="rx-eye-name">العين الشمال</span></div>
+                    <input type="number" step="0.25" id="sph-l" placeholder="0.00" class="lens-input" aria-label="SPH - العين الشمال">
+                    <input type="number" step="0.25" id="cyl-l" placeholder="0.00" class="lens-input" aria-label="CYL - العين الشمال">
+                    <input type="number" step="1" id="axis-l" placeholder="0" class="lens-input" aria-label="AXIS - العين الشمال">
+                </div>
+            </div>
+
+            <button type="submit" class="button calc-submit">احسب سعر العدسات</button>
+        </form>
+
+        <div id="lensCalcResults" class="calc-results" dir="rtl"></div>
+    </div>
+</section>
+
+<section class="section reveal">
+    <h2>تصفح حسب الفئة</h2>
+    <div class="category-grid">
+        <a href="shop.html?category=men%20sunglasses,womens%20sunglasses" class="category-card" style="background-image:url('images/category-sunglasses.jpg');">
+            <div class="category-card-label">
+                <h3>نظارات شمسية</h3>
+                <span>تسوق الآن ←</span>
+            </div>
+        </a>
+        <a href="shop.html?category=men%20medical%20fraims,womens%20medical%20fraims" class="category-card" style="background-image:url('images/category-medical.jpg.png');">
+            <div class="category-card-label">
+                <h3>نظارات طبية</h3>
+                <span>تسوق الآن ←</span>
+            </div>
+        </a>
+        <a href="shop.html?category=men%20sunglasses,men%20medical%20fraims" class="category-card" style="background-image:url('images/category-men.jpg.jpg');">
+            <div class="category-card-label">
+                <h3>نظارات رجالية</h3>
+                <span>تسوق الآن ←</span>
+            </div>
+        </a>
+        <a href="shop.html?category=womens%20sunglasses,womens%20medical%20fraims" class="category-card" style="background-image:url('images/category-women.jpg.png');">
+            <div class="category-card-label">
+                <h3>نظارات نسائية</h3>
+                <span>تسوق الآن ←</span>
+            </div>
+        </a>
+    </div>
+</section>
+
+<section class="product-carousel-section reveal" id="new-arrivals-section" style="display:none;">
+    <div class="product-carousel-header">
+        <h2>وصل حديثًا</h2>
+        <a href="shop.html">عرض الكل ←</a>
+    </div>
+    <div class="product-carousel" id="new-arrivals-products"></div>
+</section>
+
+<section class="product-carousel-section reveal" id="best-sellers-section" style="display:none;">
+    <div class="product-carousel-header">
+        <h2>الأكثر مبيعًا</h2>
+        <a href="shop.html">عرض الكل ←</a>
+    </div>
+    <div class="product-carousel" id="best-sellers-products"></div>
+</section>
+
+<section class="product-carousel-section reveal" id="sunglasses-section" style="display:none;">
+    <div class="product-carousel-header">
+        <h2>نظارات شمسية</h2>
+        <a href="shop.html?category=men%20sunglasses,womens%20sunglasses">عرض الكل ←</a>
+    </div>
+    <div class="product-carousel" id="sunglasses-products"></div>
+</section>
+
+<section class="product-carousel-section reveal" id="medical-section" style="display:none;">
+    <div class="product-carousel-header">
+        <h2>نظارات طبية</h2>
+        <a href="shop.html?category=men%20medical%20fraims,womens%20medical%20fraims">عرض الكل ←</a>
+    </div>
+    <div class="product-carousel" id="medical-products"></div>
+</section>
+
+<footer class="ending-page reveal">
+    <h2>Joo Optics</h2>
+    <p>See Better, Live Brighter</p>
+</footer>
+
+<script src="tracking.js"></script>
+<script src="toast.js"></script>
+    <script src="frontend.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>

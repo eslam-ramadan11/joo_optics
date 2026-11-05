@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Login - Joo Optics</title>
+    <link rel="stylesheet" href="admin.css">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+    <div class="login-container" style="direction: rtl; padding:40px; max-width:420px; margin:60px auto; background:#0F172A; border:1px solid #1e293b; border-radius:12px; color:#E2E8F0;">
+        <h2 style="color:#F97316; margin-bottom:18px;">تسجيل دخول الأدمن</h2>
+        <div id="msg" style="margin-bottom:12px; color:#fca5a5;"></div>
+        <form id="adminLoginForm">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <input id="username" placeholder="اسم المستخدم أو البريد الإلكتروني" required style="padding:12px; background:#071126; border:1px solid #334155; color:#fff; border-radius:8px;"/>
+                <input id="password" type="password" placeholder="كلمة المرور" required style="padding:12px; background:#071126; border:1px solid #334155; color:#fff; border-radius:8px;"/>
+                <button type="submit" style="padding:12px; background:#F97316; border:none; color:#fff; border-radius:8px; font-weight:700; cursor:pointer;">تسجيل دخول</button>
+            </div>
+        </form>
+        <p style="margin-top:14px; color:#94a3b8; font-size:13px;">ملاحظة: حساب الأدمن يجب أن يكون مسجلاً في قاعدة البيانات ويحتوي على `is_admin = True`.</p>
+    </div>
+
+    <script>
+    document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const msg = document.getElementById('msg');
+        msg.textContent = '';
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+            if (!data.success) {
+                msg.textContent = data.message || 'خطأ في بيانات الدخول';
+                return;
+            }
+
+            const token = data.data && data.data.access_token;
+            if (!token) {
+                msg.textContent = 'لم يتم استلام رمز الدخول (token)';
+                return;
+            }
+
+            // حفظ التوكن في localStorage كما يعتمد عليه باقي الواجهات
+            localStorage.setItem('authToken', token);
+
+            // تحقق سريع من صلاحيات الأدمن عبر طلب الإحصاءات
+            const statsRes = await fetch('/api/admin/dashboard-stats', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (statsRes.status === 200) {
+                window.location.href = 'admin.html';
+            } else if (statsRes.status === 403) {
+                // ليس أدمن
+                localStorage.removeItem('authToken');
+                msg.textContent = 'الحساب لا يملك صلاحيات الأدمن';
+            } else {
+                // أي خطأ آخر
+                const txt = await statsRes.text();
+                console.error(txt);
+                window.location.href = 'admin.html';
+            }
+
+        } catch (err) {
+            console.error(err);
+            msg.textContent = 'خطأ أثناء محاولة الاتصال بالخادم';
+        }
+    });
+    </script>
+</body>
+</html>

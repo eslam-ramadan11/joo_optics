@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - Joo Optics</title>
+    <meta name="description" content="سجل دخول أو اعمل حساب جديد في Joo Optics عشان تطلب نظارتك المفضلة وتتابع طلباتك.">
+<meta name="keywords" content="تسجيل دخول Joo Optics">
+<meta name="robots" content="noindex, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="تسجيل الدخول - Joo Optics">
+<meta property="og:description" content="سجل دخول أو اعمل حساب جديد في Joo Optics عشان تطلب نظارتك المفضلة وتتابع طلباتك.">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="/images/logo.jpg">
+<meta name="geo.region" content="EG">
+<meta name="geo.placename" content="Egypt">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+        <div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html">الرئيسية</a>
+        <a href="shop.html">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html">من نحن</a>
+        <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+    <section class="section auth-page">
+        <h1 class="sr-only">تسجيل الدخول أو إنشاء حساب في Joo Optics</h1>
+        <div class="card">
+            <div class="auth-tabs">
+                <button type="button" id="loginTab" class="auth-tab-btn active" onclick="setAuthMode(false)">تسجيل الدخول</button>
+                <button type="button" id="registerTab" class="auth-tab-btn" onclick="setAuthMode(true)">إنشاء حساب</button>
+            </div>
+
+            <form id="authForm">
+                <label class="lens-label" for="username">اسم المستخدم / البريد</label>
+                <input class="lens-input account-full-input" type="text" id="username" name="username" required>
+
+                <label class="lens-label" for="password">كلمة المرور</label>
+                <input class="lens-input account-full-input" type="password" id="password" name="password" required>
+
+                <div id="emailGroup" style="display: none;">
+                    <label class="lens-label" for="email">البريد الإلكتروني</label>
+                    <input class="lens-input account-full-input" type="email" id="email" name="email">
+
+                    <label class="lens-label" for="dateOfBirth">تاريخ الميلاد</label>
+                    <input class="lens-input account-full-input" type="date" id="dateOfBirth" name="dateOfBirth">
+                </div>
+
+                <button type="submit" class="button" id="submitButton" style="width: 100%;">تسجيل الدخول</button>
+                <p class="auth-message" id="message"></p>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // This page uses its own authApiCall (deliberately NOT named
+        // apiCall, to avoid colliding with frontend.js's apiCall below -
+        // that one returns null on failure and redirects to /login.html
+        // on a 401, which would break this exact page). frontend.js is
+        // still loaded for the shared header (cart count, avatar dropdown).
+        const AUTH_API_BASE_URL = '/api';
+        let isRegisterMode = false;
+
+        // Professional-site touch: someone already logged in has no reason
+        // to see the login form again.
+        // Only skip the form when the saved token is genuinely still valid.
+        // Access tokens last 15 minutes: an expired/garbage leftover token
+        // used to bounce the visitor to the home page forever, with no way
+        // to reach this form and log in again.
+        function savedTokenIsValid() {
+            try {
+                const token = localStorage.getItem('authToken');
+                if (!token) return false;
+                const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+                return typeof payload.exp === 'number' && payload.exp * 1000 > Date.now() + 5000;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        if (savedTokenIsValid()) {
+            window.location.href = '/index.html';
+        } else {
+            try {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('refreshToken');
+            } catch (e) { /* storage blocked - nothing to clear */ }
+        }
+
+        // Turn the server's English error text into something a customer
+        // can act on.
+        function friendlyAuthError(message) {
+            const m = String(message || '').toLowerCase();
+            if (m.includes('invalid credentials')) return 'اسم المستخدم/الإيميل أو كلمة السر غلط';
+            if (m.includes('too many')) return 'محاولات كتير - استنى دقيقة وجرّب تاني';
+            if (m.includes('already exists')) return 'اسم المستخدم أو الإيميل مستخدم قبل كده';
+            return message;
+        }
+
+        async function authApiCall(endpoint, method = 'GET', data = null) {
+            const options = {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+            };
+
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+
+            try {
+                const response = await fetch(`${AUTH_API_BASE_URL}${endpoint}`, options);
+                let responseData = {};
+                try {
+                    responseData = await response.json();
+                } catch (e) {
+                    responseData = {};
+                }
+
+                if (!response.ok) {
+                    return { error: friendlyAuthError(responseData.message) || ('خطأ في الاتصال بالسيرفر (' + response.status + ')') };
+                }
+
+                return responseData.data || responseData;
+            } catch (error) {
+                return { error: error.message };
+            }
+        }
+
+        async function register() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const dateOfBirth = document.getElementById('dateOfBirth').value;
+
+            if (!username || !email || !password || !dateOfBirth) {
+                showMessage('من فضلك املأ كل الحقول', 'error');
+                return;
+            }
+
+            const result = await authApiCall('/auth/register', 'POST', {
+                username,
+                email,
+                password,
+                date_of_birth: dateOfBirth,
+            });
+
+            if (result.error) {
+                showMessage('فشل إنشاء الحساب: ' + result.error, 'error');
+                return;
+            }
+
+            showMessage('تم إنشاء الحساب بنجاح! جارٍ تسجيل الدخول...', 'success');
+            if (result.access_token) {
+                localStorage.setItem('authToken', result.access_token);
+                if (result.refresh_token) {
+                    localStorage.setItem('refreshToken', result.refresh_token);
+                }
+            }
+            setTimeout(() => {
+                window.location.href = '/index.html';
+            }, 1200);
+        }
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showMessage('من فضلك املأ كل الحقول', 'error');
+                return;
+            }
+
+            const result = await authApiCall('/auth/login', 'POST', {
+                username,
+                password,
+            });
+
+            if (result.error) {
+                showMessage('فشل تسجيل الدخول: ' + result.error, 'error');
+                return;
+            }
+
+            if (result.access_token) {
+                localStorage.setItem('authToken', result.access_token);
+                if (result.refresh_token) {
+                    localStorage.setItem('refreshToken', result.refresh_token);
+                }
+                showMessage('تم تسجيل الدخول بنجاح! جارٍ التحويل...', 'success');
+                setTimeout(() => {
+                    window.location.href = '/index.html';
+                }, 1000);
+            }
+        }
+
+        function setAuthMode(registerMode) {
+            isRegisterMode = registerMode;
+            const formTitleButton = document.getElementById('submitButton');
+            const emailGroup = document.getElementById('emailGroup');
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+
+            loginTab.classList.toggle('active', !registerMode);
+            registerTab.classList.toggle('active', registerMode);
+            emailGroup.style.display = registerMode ? 'block' : 'none';
+            formTitleButton.textContent = registerMode ? 'إنشاء حساب' : 'تسجيل الدخول';
+            document.getElementById('message').textContent = '';
+        }
+
+        function showMessage(msg, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = msg;
+            messageDiv.className = 'auth-message ' + (type === 'error' ? 'error-message' : 'success-message');
+        }
+
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (isRegisterMode) {
+                await register();
+            } else {
+                await login();
+            }
+        });
+    </script>
+<script src="tracking.js"></script>
+<script src="toast.js"></script>
+    <script src="frontend.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>

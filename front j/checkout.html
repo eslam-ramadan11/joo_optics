@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joo Optics - إتمام الطلب</title>
+<meta name="description" content="إتمام طلبك في Joo Optics - اختر عنوان الشحن وطريقة الدفع.">
+<meta name="robots" content="noindex, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="Joo Optics - Checkout">
+<meta property="og:description" content="إتمام طلبك في Joo Optics - اختر عنوان الشحن وطريقة الدفع.">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="/images/logo.jpg">
+<meta name="geo.region" content="EG">
+<meta name="geo.placename" content="Egypt">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+        <div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html">الرئيسية</a>
+        <a href="shop.html">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html">من نحن</a>
+        <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+    <section class="section checkout-page" id="checkout-page">
+        <h1 class="page-title">إتمام الطلب</h1>
+
+        <div id="checkout-guest-notice" style="display:none;">
+            <p>لازم تسجل دخول الأول عشان تكمل طلبك.</p>
+            <a class="button" href="login.html">تسجيل الدخول</a>
+        </div>
+
+        <div id="checkout-empty-notice" style="display:none;">
+            <p>سلة مشترياتك فاضية.</p>
+            <a class="button" href="shop.html">أكمل التسوق</a>
+        </div>
+
+        <div id="checkout-content" style="display:none;">
+            <div class="card">
+                <h3>منتجاتك</h3>
+                <div id="checkoutItems"></div>
+            </div>
+
+            <div class="card" style="margin-top:15px; padding:15px;">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <label class="lens-label" style="margin:0; white-space:nowrap;">هل لديك كود خصم؟</label>
+                    <input type="text" id="couponCodeInput" placeholder="أدخل كود الخصم" class="lens-input" style="flex:1; min-width:150px; margin:0; text-transform:uppercase;">
+                    <button type="button" id="applyCouponBtn" class="table-action-btn" style="white-space:nowrap;">تطبيق</button>
+                </div>
+                <p id="couponMsg" style="margin:8px 0 0 0; font-size:13px;"></p>
+                <div id="appliedCouponRow" style="display:none; margin-top:8px; align-items:center; justify-content:space-between;">
+                    <span style="color:#22c55e; font-size:14px;">✓ تم تطبيق الكود: <strong id="appliedCouponCode"></strong></span>
+                    <button type="button" id="removeCouponBtn" class="table-action-btn" style="font-size:12px; padding:4px 10px;">إزالة</button>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:20px;">
+                <h3>عدسات طبية</h3>
+                <label class="lens-label" style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                    <input type="radio" name="needsPrescription" value="no" checked> لا - دي نظارة جاهزة (بدون عدسات طبية)
+                </label>
+                <label class="lens-label" style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                    <input type="radio" name="needsPrescription" value="yes"> نعم - عايز أركّب عدسات طبية
+                </label>
+
+                <div id="prescriptionFieldsGroup" style="display:none; margin-top:15px;">
+                    <div id="lensTargetGroup" style="display:none; margin-bottom:15px;">
+                        <label class="lens-label">العدسات هتتركب على:</label>
+                        <label class="lens-label" style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                            <input type="radio" name="lensTarget" value="all" checked> كل النظارات في السلة
+                        </label>
+                        <label class="lens-label" style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                            <input type="radio" name="lensTarget" value="single"> نظارة واحدة بس
+                        </label>
+                        <select id="lensTargetProductSelect" class="lens-select account-full-input" style="display:none; margin-top:8px;"></select>
+                    </div>
+
+                    <p class="product-meta" id="prescriptionScopeNote">الكشف ونوع العدسة اللي هتختارهم هيتطبقوا على كل منتجات الطلب.</p>
+
+                    <label class="lens-label" for="prescriptionSelect">الكشف الطبي</label>
+                    <select id="prescriptionSelect" class="lens-select account-full-input"></select>
+
+                    <div id="lensQuoteArea" style="margin-top:15px;">
+                        <p class="product-meta">اختار كشف فوق عشان تشوف خيارات وأسعار العدسات.</p>
+                    </div>
+
+                    <details style="margin-top:15px;">
+                        <summary style="cursor:pointer; color:#F97316;">+ رفع كشف جديد</summary>
+                        <form id="newPrescriptionForm" style="margin-top:15px;">
+                            <div class="lens-table-container">
+                                <table class="lens-table">
+                                    <thead>
+                                        <tr><th></th><th>SPH</th><th>CYL</th><th>AXIS</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="eye-label">يمين</td>
+                                            <td><input class="lens-input" type="number" step="0.25" id="np-sph-r" required></td>
+                                            <td><input class="lens-input" type="number" step="0.25" id="np-cyl-r" required></td>
+                                            <td><input class="lens-input" type="number" step="1" id="np-axis-r" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="eye-label">شمال</td>
+                                            <td><input class="lens-input" type="number" step="0.25" id="np-sph-l" required></td>
+                                            <td><input class="lens-input" type="number" step="0.25" id="np-cyl-l" required></td>
+                                            <td><input class="lens-input" type="number" step="1" id="np-axis-l" required></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="upload-zone">
+                                <p class="upload-instruction">ارفع صورة الكشف بتاعك</p>
+                                <input type="file" id="np-file" accept="image/*,application/pdf" required>
+                            </div>
+                            <button type="submit" class="button">رفع الكشف</button>
+                        </form>
+                    </details>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:20px;">
+                <h3>عنوان الشحن</h3>
+                <select id="addressSelect" class="lens-select account-full-input"></select>
+
+                <details style="margin-top:15px;">
+                    <summary style="cursor:pointer; color:#F97316;">+ إضافة عنوان جديد</summary>
+                    <form id="newAddressForm" style="margin-top:15px;">
+                        <label class="lens-label">المدينة</label>
+                        <input class="lens-input account-full-input" type="text" id="np-city" required>
+                        <label class="lens-label">العنوان بالتفصيل</label>
+                        <input class="lens-input account-full-input" type="text" id="np-address" required>
+                        <label class="lens-label">رقم الموبايل</label>
+                        <input class="lens-input account-full-input" type="text" id="np-phone" required>
+                        <button type="submit" class="button">حفظ العنوان</button>
+                    </form>
+                </details>
+            </div>
+
+            <div class="card" style="margin-top:20px;">
+                <h3>طريقة الدفع</h3>
+                <label class="lens-label" style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                    <input type="radio" name="paymentMethod" value="cash" checked> الدفع عند الاستلام
+                </label>
+                <label class="lens-label" style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                    <input type="radio" name="paymentMethod" value="paymob_card"> الدفع أونلاين دلوقتي (فيزا / محفظة إلكترونية)
+                </label>
+            </div>
+
+            <div class="price-display-box">
+                <p class="price-text" id="checkoutSubtotalRow" style="display:none; font-size:14px; color:#94a3b8;">الإجمالي قبل الخصم: <span id="checkoutSubtotal">0.00</span> جنيه</p>
+                <p class="price-text" id="checkoutDiscountRow" style="display:none; font-size:14px; color:#22c55e;">الخصم: -<span id="checkoutDiscount">0.00</span> جنيه</p>
+                <p class="price-text">الإجمالي: <span id="checkoutTotal">0.00</span> جنيه</p>
+                <button type="button" id="placeOrderBtn" class="button">تأكيد الطلب</button>
+            </div>
+            <p class="account-msg" id="checkoutMsg"></p>
+        </div>
+    </section>
+
+    <script src="tracking.js"></script>
+    <script src="toast.js"></script>
+    <script src="frontend.js"></script>
+    <script src="checkout.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>

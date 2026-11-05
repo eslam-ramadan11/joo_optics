@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>من نحن - Joo Optics</title>
+<meta name="description" content="تعرف على Joo Optics - متجرك لشراء النظارات الطبية والشمسية أونلاين في مصر، مع حاسبة عدسات فورية وأسعار واضحة.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="من نحن - Joo Optics">
+<meta property="og:locale" content="ar_EG">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+<div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html">الرئيسية</a>
+        <a href="shop.html">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html" class="active">من نحن</a>
+        <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+<section class="section reveal">
+    <div class="card" style="max-width: 780px; margin: 0 auto; text-align: right;">
+        <h1 style="font-family:'Playfair Display', serif; color: white; margin-bottom: var(--space-2);">جو أوبتيكس</h1>
+        <p style="color: var(--color-text-muted); font-size: var(--text-md); line-height: 1.9;">
+            جو أوبتيكس متجر أونلاين متخصص في النظارات الطبية والشمسية في مصر، هدفنا نسهّل عليك تجربة شراء النظارة من البيت - من غير ما تحتاج تروح المحل عشان تعرف قياساتك أو سعر عدساتك.
+        </p>
+        <p style="color: var(--color-text-muted); font-size: var(--text-md); line-height: 1.9;">
+            بنيّنا حاسبة عدسات بتديك السعر الفعلي بناءً على مقاسك (SPH/CYL) قبل ما تكمل طلبك، ومساعد ذكي يرشحلك نوع العدسة المناسب لاستخدامك اليومي - سواء كمبيوتر، شمس، قيادة ليلية، أو حماية من الكسر.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-4); margin: var(--space-8) 0;">
+            <div style="text-align:center; background: var(--color-surface); border:1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5);">
+                <div style="color: var(--color-accent); font-size: 22px; margin-bottom: var(--space-2);"><i class="fa-solid fa-calculator"></i></div>
+                <strong style="color:white;">حاسبة عدسات فورية</strong>
+            </div>
+            <div style="text-align:center; background: var(--color-surface); border:1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5);">
+                <div style="color: var(--color-accent); font-size: 22px; margin-bottom: var(--space-2);"><i class="fa-solid fa-tags"></i></div>
+                <strong style="color:white;">أسعار واضحة من غير مفاجآت</strong>
+            </div>
+            <div style="text-align:center; background: var(--color-surface); border:1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5);">
+                <div style="color: var(--color-accent); font-size: 22px; margin-bottom: var(--space-2);"><i class="fa-solid fa-truck-fast"></i></div>
+                <strong style="color:white;">شحن مجاني لكل مصر</strong>
+            </div>
+            <div style="text-align:center; background: var(--color-surface); border:1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5);">
+                <div style="color: var(--color-accent); font-size: 22px; margin-bottom: var(--space-2);"><i class="fa-solid fa-shield-halved"></i></div>
+                <strong style="color:white;">الدفع عند الاستلام أو أونلاين بأمان</strong>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top: var(--space-6);">
+            <a class="hero-cta" href="shop.html">تصفح تشكيلتنا <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </div>
+</section>
+
+<footer class="ending-page reveal">
+    <h2>Joo Optics</h2>
+    <p>See Better, Live Brighter</p>
+</footer>
+<script src="tracking.js"></script>
+<script src="toast.js"></script>
+<script src="frontend.js"></script>
+<script src="chat-widget.js"></script>
+</body>
+</html>

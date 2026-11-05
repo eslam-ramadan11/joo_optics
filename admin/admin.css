@@ -1,0 +1,568 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #0F172A;
+    color: #E2E8F0;
+    direction: rtl;
+    overflow-x: hidden;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background: #111827;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #1e293b;
+    position: fixed;
+    height: 100vh;
+    right: 0;
+    top: 0;
+}
+
+.sidebar-logo {
+    padding: 25px;
+    text-align: center;
+    border-bottom: 1px solid #1e293b;
+}
+
+.sidebar-logo h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.dot {
+    color: #F97316;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sidebar-nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.sidebar-nav a i {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-nav a:hover, .sidebar-nav a.active {
+    background: rgba(249, 115, 22, 0.1);
+    color: #F97316;
+    border-right: 4px solid #F97316;
+}
+
+.sidebar-bottom {
+    padding: 20px;
+    border-top: 1px solid #1e293b;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-bottom a, .sidebar-bottom button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar-bottom a {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #e2e8f0;
+}
+
+.sidebar-bottom a:hover {
+    background: #475569;
+}
+
+#logoutBtn {
+    background: #ef4444;
+    color: white;
+}
+
+#logoutBtn:hover {
+    background: #dc2626;
+}
+
+.main-content {
+    flex: 1;
+    margin-right: 260px;
+    padding: 30px;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.top-header h2 {
+    margin: 0;
+    color: #fff;
+}
+
+.admin-profile img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #F97316;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #111827;
+    padding: 25px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #1e293b;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.stat-info h3 {
+    margin: 0 0 10px 0;
+    color: #94a3b8;
+    font-size: 16px;
+}
+
+.stat-value {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(249, 115, 22, 0.1);
+    color: #F97316;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.chart-container {
+    background: #111827;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #1e293b;
+    height: 400px;
+    margin-bottom: 30px;
+}
+
+.chart-container h3 {
+    margin-top: 0;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.form-container, .table-container {
+    background: #111827;
+    padding: 30px;
+    border-radius: 14px;
+    border: 1px solid #1e293b;
+}
+
+.form-container h3, .table-container h3 {
+    margin-top: 0;
+    color: #F97316;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #1e293b;
+    padding-bottom: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.input-group > input, .input-group > select {
+    min-width: 160px;
+}
+
+.input-group input, .input-group select {
+    flex: 1;
+    padding: 15px;
+    background: #0F172A;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus, .input-group select:focus {
+    border-color: #F97316;
+}
+
+.filter-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+    align-items: center;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.table-action-btn {
+    background: #0F172A;
+    color: #E2E8F0;
+    border: 1px solid #334155;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.3s;
+}
+
+.table-action-btn:hover {
+    background: #1f2937;
+}
+
+.table-action-btn.edit-product-btn {
+    border-color: #F97316;
+    color: #F97316;
+}
+
+.table-action-btn.delete-product-btn {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.order-status-select {
+    background: #0F172A;
+    color: #fff;
+    border: 1px solid #334155;
+    padding: 8px 10px;
+    border-radius: 10px;
+    margin-right: 8px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    background: #0F172A;
+    color: #E2E8F0;
+    border: 1px solid #334155;
+    padding: 10px 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.pagination-btn:hover {
+    background: #1f2937;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    color: #94a3b8;
+}
+
+.file-input {
+    padding: 12px !important;
+}
+
+.submit-btn {
+    background: #F97316;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.submit-btn:hover {
+    background: #ea580c;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+    padding: 15px;
+    text-align: right;
+    border-bottom: 1px solid #1e293b;
+}
+
+.data-table th {
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.data-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-pending { background: rgba(234, 179, 8, 0.2); color: #eab308; }
+.status-completed { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.status-cancelled { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.status-alert {
+    background: #ef4444;
+    color: #ffffff;
+    font-weight: 700;
+    animation: status-alert-pulse 2s infinite;
+}
+@keyframes status-alert-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+    50% { box-shadow: 0 0 0 5px rgba(239, 68, 68, 0); }
+}
+
+.lens-details-box {
+    background: #0F172A;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-top: 5px;
+    border: 1px solid #334155;
+}
+
+.view-btn {
+    color: #F97316;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+/* ============================================================
+   RESPONSIVE: the sidebar was `position: fixed; width: 260px`
+   with zero media queries, and .main-content had a matching
+   `margin-right: 260px`. On a ~375px phone that leaves barely
+   100px for the entire dashboard - this was the main reason the
+   admin panel felt oversized/uncomfortable on mobile.
+   ============================================================ */
+
+@media (max-width: 900px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-left: none;
+        border-bottom: 1px solid #1e293b;
+    }
+
+    .sidebar-logo {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        flex: none;
+        width: 100%;
+        overflow-x: auto;
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .sidebar-nav a {
+        padding: 10px 16px;
+        white-space: nowrap;
+        border-radius: 10px;
+    }
+
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+        border-right: none;
+        border-bottom: 3px solid #F97316;
+    }
+
+    .sidebar-bottom {
+        flex-direction: row;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .sidebar-bottom a, .sidebar-bottom button {
+        width: auto;
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .main-content {
+        margin-right: 0;
+        padding: 20px 15px;
+    }
+
+    .top-header {
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .chart-container {
+        height: 280px;
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 22px;
+    }
+
+    .form-container, .table-container {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px 10px;
+    }
+
+    .sidebar-logo h2 {
+        font-size: 18px;
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+
+    .data-table th, .data-table td {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Color checkbox group (product create/edit forms) */
+.color-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+    background: #0F172A;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.color-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #E2E8F0;
+}
+
+.color-checkbox-item input[type="checkbox"] {
+    cursor: pointer;
+}

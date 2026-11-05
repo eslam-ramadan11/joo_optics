@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تواصل معنا - Joo Optics</title>
+<meta name="description" content="تواصل مع فريق Joo Optics لأي استفسار عن النظارات الطبية والشمسية، أو لمتابعة طلبك في مصر.">
+<meta name="keywords" content="تواصل Joo Optics, خدمة عملاء نظارات مصر">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Joo Optics">
+<meta property="og:title" content="تواصل معنا - Joo Optics">
+<meta property="og:description" content="تواصل مع فريق Joo Optics لأي استفسار عن النظارات الطبية والشمسية، أو لمتابعة طلبك في مصر.">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="/images/logo.jpg">
+<meta name="geo.region" content="EG">
+<meta name="geo.placename" content="Egypt">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+        <div class="announcement-bar">🚚 الشحن مجاني على جميع الطلبات</div>
+<header>
+    <button class="header-icon-btn nav-toggle-btn" onclick="toggleMobileNav()" aria-label="القائمة">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <a href="index.html" style="text-decoration:none;">
+        <span class="site-logo"><i class="fa-solid fa-glasses logo-mark"></i> Joo Optics</span>
+    </a>
+
+    <nav id="mainNav">
+        <a href="index.html">الرئيسية</a>
+        <a href="shop.html">المتجر</a>
+        <a href="index.html#lens-calculator-section">العدسات</a>
+        <a href="about.html">من نحن</a>
+        <a href="contact.html" class="active">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+        <form class="header-search-form" id="headerSearchForm">
+            <input type="text" id="headerSearchInput" placeholder="ابحث عن نظارة...">
+        </form>
+        <button type="button" class="header-icon-btn" onclick="toggleHeaderSearch()" aria-label="بحث">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button type="button" class="header-icon-btn" onclick="showCart()" aria-label="السلة">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button id="userButton" class="header-icon-btn" onclick="toggleUserMenu()" aria-label="الحساب">
+            <span id="userAvatarBubble" class="header-avatar">?</span>
+        </button>
+    </div>
+
+    <div id="userMenu" class="user-dropdown" style="display: none;">
+        <button id="loginMenuBtn" onclick="window.location.href='/login.html'">تسجيل الدخول / إنشاء حساب</button>
+        <button id="logoutMenuBtn" onclick="logout()" class="danger" style="display: none;">تسجيل الخروج</button>
+        <button id="userInfoBtn" onclick="showUserInfo()" style="display: none;">حسابي</button>
+    </div>
+</header>
+
+    <section class="section reveal">
+        <div class="card contact-card" dir="rtl">
+            <h1>تواصل مع Joo Optics</h1>
+            <p>محتاج مساعدة في طلب، أو عايز تعرف حاجة عن العدسات أو النظارات؟ كلمنا بأي طريقة من دول.</p>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <strong>واتساب</strong>
+                    <span><a href="https://wa.me/201287178261" target="_blank" rel="noopener" style="color:#F97316;" dir="ltr">01287178261</a></span>
+                </div>
+                <div class="contact-item">
+                    <strong>تليفون</strong>
+                    <span dir="ltr"><a href="tel:+201287178261" style="color:inherit;">01287178261</a></span>
+                </div>
+                <div class="contact-item">
+                    <strong>المكان</strong>
+                    <span>الاسكندريه، مصر</span>
+                </div>
+            </div>
+            <div style="margin-top: 25px; display: flex; gap: 12px; flex-wrap: wrap;">
+                <a class="button" href="shop.html">تصفح المنتجات</a>
+                <a class="button" href="login.html">تسجيل الدخول / إنشاء حساب</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="ending-page reveal">
+        <h2>Joo Optics</h2>
+        <p>Luxury Eyewear For Modern Style</p>
+    </footer>
+<script src="tracking.js"></script>
+<script src="toast.js"></script>
+    <script src="frontend.js"></script>
+    <script src="chat-widget.js"></script>
+</body>
+</html>
